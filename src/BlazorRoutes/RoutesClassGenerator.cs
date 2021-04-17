@@ -124,7 +124,7 @@ public static class Routes
                                .Append(Inline)
                                .AppendLine("{")
                                .Append(Inline).Append(Inline)
-                               .Append("return string.Format(CultureInfo.InvariantCulture, \"")
+                               .Append("return TrimEndSlash(string.Format(CultureInfo.InvariantCulture, \"")
                                .Append(route.FormatPattern)
                                .Append("\"");
 
@@ -179,7 +179,7 @@ public static class Routes
                             }
                         }
 
-                        builder.AppendLine(");")
+                        builder.AppendLine("));")
                                .Append(Inline)
                                .Append("}");
                     }
@@ -193,6 +193,16 @@ public static class Routes
                     builder.AppendLine();
                 }
             }
+
+            builder.AppendLine()
+                   .Append(Inline)
+                   .AppendLine("private static string TrimEndSlash(string path)")
+                   .Append(Inline)
+                   .AppendLine("{")
+                   .Append(Inline).Append(Inline)
+                   .AppendLine("return (path.EndsWith(\"/\") && path.Length > 1 ? path.Remove(path.Length - 1) : path);")
+                   .Append(Inline)
+                   .AppendLine("}");
 
             builder.AppendLine("}")
                    .AppendLine()
